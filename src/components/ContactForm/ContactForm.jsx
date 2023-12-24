@@ -1,23 +1,34 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import css from './ContactForm.module.css';
 
-export class ContactForm extends Component {
-  state = {
-    name: '',
-    number: '',
+export const ContactForm = ({ onSubmit }) => {
+  const [name, setName] = useState('');
+  const [number, setNumber] = useState('');
+
+
+const handleChange = event => {
+    switch (event.target.name) {
+      case 'name':
+        setName(event.currentTarget.value);
+        break;
+      case 'number':
+        setNumber(event.currentTarget.value);
+        break;
+      default:
+        return;
+    }
   };
-  handleChange = event => {
-    this.setState({ [event.currentTarget.name]: event.currentTarget.value });
-  };
-  handleSubmit = event => {
+
+const handleSubmit = event => {
     event.preventDefault();
-    this.props.onSubmit(this.state);
-    this.setState({ name: '', number: '' });
+    onSubmit({ name, number });
+    return [setName(''), setNumber('')];
   };
-  render() {
+
+
     return (
       <>
-        <form className={css.form} onSubmit={this.handleSubmit}>
+        <form className={css.form} onSubmit={handleSubmit}>
           <label className={css.label}>
             Name
             <input
@@ -25,8 +36,8 @@ export class ContactForm extends Component {
               type="text"
               name="name"
               required
-              value={this.state.name}
-              onChange={this.handleChange}
+              value={name}
+              onChange={handleChange}
             />
           </label>
           <label className={css.label}>
@@ -36,8 +47,8 @@ export class ContactForm extends Component {
               type="tel"
               name="number"
               required
-              value={this.state.number}
-              onChange={this.handleChange}
+              value={number}
+              onChange={handleChange}
             ></input>
           </label>
           <button className={css.btn} type="submit">
@@ -47,4 +58,3 @@ export class ContactForm extends Component {
       </>
     );
   }
-}
