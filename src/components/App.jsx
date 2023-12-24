@@ -30,10 +30,12 @@ const handlerDelete = idDelete => {
     const newContacts = contacts.filter(contact => contact.id !== idDelete);
     setContacts([...newContacts]);
   };
+ 
  useEffect(() => {
     localStorage.setItem('contacts', JSON.stringify(contacts));
-    JSON.parse(localStorage.getItem('contacts'));
-  }, [contacts]);
+ }, [contacts]);
+  
+
 
   const filterContact = contacts.filter(({ name }) =>
     name.toLowerCase().includes(filter.toLowerCase())
